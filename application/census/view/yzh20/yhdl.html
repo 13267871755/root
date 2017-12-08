@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://ljsg.10001wan.com/h5/lgg_ljsg_2/ -->
+<html id="html"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>影魂大陆</title>
+    <meta name="viewport" content="width=720, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="__STATIC__/census/yzh/swiper-3.4.1.min.css" rel="stylesheet" type="text/css">
+    <link href="__STATIC__/census/yzh/yzh13/index.css" rel="stylesheet" type="text/css">
+    <link href="__STATIC__/census/yzh/yzh4/css/index.css" rel="stylesheet" type="text/css">
+</head>
+<style type="text/css">
+img{float:left;}
+.position2{margin-top:13px;}
+.downa{width: 371px;height: 154px;margin-top: 741px;margin-left: -537px;}
+.downb{width: 404px;height: 166px;margin-top: 3336px;margin-left: -568px;}
+</style>
+<body>
+<div id="container">
+    <section class="content ">
+    <header>
+    <img src="__STATIC__/census/yzh/icon/yhdl/2-3.jpg" style="width:720px">
+        <a href="javascript:void(0);" onclick="Download()"  class=" down down1"></a>
+    </header>
+        <div class="position2">
+            <img src="__STATIC__/census/yzh/yzh20/4.1.gif" style="width:720px">
+        <a href="javascript:void(0);" onclick="Download()"  class=" down downa"></a>
+        <a href="javascript:void(0);" onclick="Download()"  class=" down downb"></a>
+        </div>
+    </section>
+</div>
+ <div>
+    <input type="hidden" value="<{$data.monitoring_url}>" id="monitoring_url">
+    <input type="hidden" value="<{$data.download_url}>" id="download_url">
+</div>
+
+<script src="__STATIC__/census/lmsy/jquery-2.txt" type="text/javascript"></script>
+<script src="__STATIC__/census/lmsy/swiper-3.txt" type="text/javascript"></script>
+<script type="text/javascript">
+    var mySwiper = new Swiper ('.swiper-container', {
+        loop: true,
+        autoplay : 5000,
+
+        // 如果需要前进后退按钮
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+
+
+    })
+
+   $(document).ready(function(){
+    var url = $('#monitoring_url').val();
+        if(url != ''){
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: '',
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        }
+        
+    }); 
+        
+</script>
+<script src="__STATIC__/census/jxwq/jxwq3/jquery-1.9.1.min.js.下载"></script>
+<script type="text/javascript" src="__STATIC__/census/jxwq/jxwq3/main.js.下载"></script>
+<script src="__STATIC__/lib/mobile-detect.min.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var pnumber = "<{$Request.param.pnumber}>"; //鍖呭彿
+        var system_os = '';  //绯荤粺
+        var system_version = '';  //鐗堟湰
+        var system_type = '';  //鏈哄瀷
+        var view_type = '';  //璁块棶绫诲瀷
+        var view_venv = '';  //璁块棶鐜
+        var user_cookie = '<{$session_id}>';  //cookie
+
+        var device_type = navigator.userAgent;//鑾峰彇userAgent淇℃伅
+        var md = new MobileDetect(device_type);//鍒濆鍖杕obile-detect
+
+        if (md.mobile() == 'iPad') {
+            view_type = 'iPad'; //璁块棶鏈哄櫒
+            system_os = 'IOS'; //绯荤粺
+            system_version = 'unknown'; //绯荤粺鐗堟湰
+            system_type = 'unknown'; //绯荤粺鏈哄瀷
+
+        } else if (md.os() == "iOS") {
+            view_type = 'iPhone';
+            system_os = md.os();
+            system_version = md.version("iPhone");
+            system_type = "iPhone";//鏈哄瀷
+
+        } else if (md.os() == "AndroidOS") {
+            view_type = 'Android';
+            system_os = md.os();
+            system_version = md.version("Android");
+            var sys_dict = device_type.split(";");
+            system_type = sys_dict[2];//鏈哄瀷
+        } else {
+            view_type = 'PC';
+            system_os = 'PC';
+            system_version = 'unknown';
+            system_type = 'unknown';
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "<{:url('census/add')}>",
+            data: {
+                pnumber: pnumber,
+                system_os: system_os,
+                system_version: system_version,
+                system_type: system_type,
+                view_type: view_type,
+                view_venv: view_venv,
+                user_cookie: user_cookie,
+            },
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                console.log(json)
+            }
+        });
+
+    }
+    $(window).on('beforeunload', function () {
+        var user_cookie = '<{$session_id}>';  //cookie
+        $.ajax({
+
+            type: "POST",
+            url: "<{:url('census/leave')}>",
+            data: {
+                user_cookie: user_cookie,
+            },
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+            }
+        });
+    });
+    function Download(){
+
+        var pacakge = "<{$Request.param.pnumber}>";
+        $.ajax({
+            type: "POST",
+            url: "<{:url('download/add')}>",
+            data: {package: pacakge},
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                if (json.status === 'fail') {
+                    alert(json.msg);
+                    return false;
+                } else {
+                    window.location.href = json.url;
+                    return false;
+                }
+
+            }
+        });
+
+       var url = $('#download_url').val();
+        if(url != ''){
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: '',
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

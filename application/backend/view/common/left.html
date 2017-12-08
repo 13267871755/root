@@ -1,0 +1,59 @@
+<!--左侧导航开始-->
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span><img alt="image" class="img-circle" src="/static/backend/hplus/img/profile_small.jpg" /></span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                               <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
+                                <span class="text-muted text-xs block"><?php echo session('username') ?><b class="caret"></b></span>
+                                </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a class="J_menuItem" href="#">修改头像</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="<{:url('login/logout')}>">安全退出</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-element">SH
+                </div>
+            </li>
+            <li>
+                <a class="J_menuItem" href="<{:url('game/index')}>"><i class="fa fa-columns"></i> <span class="nav-label">游戏</span></a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="<{:url('package/index')}>"><i class="fa fa-columns"></i> <span class="nav-label">包</span></a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="<{:url('construct/index')}>"><i class="fa fa-columns"></i> <span class="nav-label">落地页搭建</span></a>
+            </li>
+             <li>
+                <a class="J_menuItem" href="<{:url('landing/index')}>"><i class="fa fa-columns"></i> <span class="nav-label">落地页信息</span></a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="<{:url('daily_census/index')}>"><i class="fa fa-columns"></i> <span class="nav-label">访问统计</span></a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="<{:url('daily_download/index')}>"><i class="fa fa-columns"></i> <span class="nav-label">下载统计</span></a>
+            </li>
+
+            <li>
+                <a class="J_menuItem" href="<{:url('census/index')}>"><i class="fa fa-columns"></i> <span class="nav-label">访问记录</span></a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="<{:url('download/index')}>"><i class="fa fa-columns"></i> <span class="nav-label">下载记录</span></a>
+            </li>
+            
+            <li>
+                <a class="J_menuItem" href="<{:url('user/index')}>"><i class="fa fa-columns"></i> <span class="nav-label">用户</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--左侧导航结束-->

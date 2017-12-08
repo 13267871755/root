@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0039)http://ljsg.10001wan.com/h5/lgg_ljsg_2/ -->
+<html id="html"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>影之魂</title>
+    <meta name="viewport" content="width=720, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link href="__STATIC__/census/yzhwx/index.css" rel="stylesheet" type="text/css">
+    <style>
+    .down1 {width: 261px;height: 114px;right: 20px;top: 5px;}
+    </style>
+</head>
+
+<body>
+<div id="container">
+    <header>
+        <img src="__STATIC__/census/yzh/yzh21/yzh.jpg">
+        <a href="javascript:void(0);" onclick="Download()"  class=" down down1"></a>
+    </header>
+    <section class="content ">
+        <div class="position2">
+            <img src="__STATIC__/census/yzhwx/header2.jpg">
+        </div>
+        <div class="position">
+            <a href="javascript:void(0);" onclick="Download()" class=" down down2"></a>
+        </div>
+        <div class="position2">
+            <img src="__STATIC__/census/yzhwx/01_02.jpg">
+            <img src="__STATIC__/census/yzhwx/4-02.jpg">
+            <img src="__STATIC__/census/yzhwx/6-04-02.jpg">
+            <img src="__STATIC__/census/yzhwx/5-03.jpg">
+        </div>
+        <div class="position2">
+            <img src="__STATIC__/census/yzhwx/button.jpg">
+        </div>
+        <div class="position">
+            <a href="javascript:void(0);" onclick="Download()" class="down down3"></a>
+        </div>
+        <div class="position2">
+            <img src="/static/census/jxwq/6.1.jpg">
+        </div>
+    </section>
+
+
+</div>
+</body>
+<script src="__STATIC__/census/yzhwx/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="__STATIC__/census/yzhwx/touchSwipe.min.js"></script>
+
+<script src="__STATIC__/lib/mobile-detect.min.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var pnumber = "<{$Request.param.pnumber}>"; //包号
+        var system_os = '';  //系统
+        var system_version = '';  //版本
+        var system_type = '';  //机型
+        var view_type = '';  //访问类型
+        var view_venv = '';  //访问环境
+        var user_cookie = '<{$session_id}>';  //cookie
+
+        var device_type = navigator.userAgent;//获取userAgent信息
+        var md = new MobileDetect(device_type);//初始化mobile-detect
+
+        if (md.mobile() == 'iPad') {
+            view_type = 'iPad'; //访问机器
+            system_os = 'IOS'; //系统
+            system_version = 'unknown'; //系统版本
+            system_type = 'unknown'; //系统机型
+
+        } else if (md.os() == "iOS") {
+            view_type = 'iPhone';
+            system_os = md.os();
+            system_version = md.version("iPhone");
+            system_type = "iPhone";//机型
+
+        } else if (md.os() == "AndroidOS") {
+            view_type = 'Android';
+            system_os = md.os();
+            system_version = md.version("Android");
+            var sys_dict = device_type.split(";");
+            system_type = sys_dict[2];//机型
+        } else {
+            view_type = 'PC';
+            system_os = 'PC';
+            system_version = 'unknown';
+            system_type = 'unknown';
+        }
+
+
+    }
+    $(window).on('beforeunload', function () {
+        var user_cookie = '<{$session_id}>';  //cookie
+        $.ajax({
+
+            type: "POST",
+            url: "<{:url('census/leave')}>",
+            data: {
+                user_cookie: user_cookie,
+            },
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                console.log(json)
+            }
+        });
+    });
+    function Download() {
+
+        var pacakge = "<{$Request.param.pnumber}>";
+        var controller="<{$Request.controller}>";
+        if(!new RegExp(controller.toLowerCase()).test(pacakge))
+        {
+            alert('参数非法');
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "<{:url('download/add')}>",
+            data: {package: pacakge},
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                if (json.status === 'fail') {
+                    alert(json.msg);
+                    return false;
+                } else {
+                    window.location.href = json.url;
+                    return false;
+                }
+
+            }
+        });
+    }
+</script>
+</html>

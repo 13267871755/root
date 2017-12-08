@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    {include file="common/header" /}
+    <!-- Data Tables -->
+    <link href="/static/backend/hplus/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+</head>
+<style type="text/css">
+ table{
+    min-width: 100%;
+}
+td{
+    min-width: 100px;
+}
+th{
+    min-width: 100px;
+}
+.ibox-content{
+    overflow:auto;
+    display: block;
+}   
+</style>
+<body class="gray-bg" >
+<div class="wrapper wrapper-content animated fadeInRight" >
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                    <form action="<{:url('package/index')}>" method ="post">
+                       <div class="form-inline" id="role-form">
+                            <div class="form-group">
+                                <label>包名：</label>
+                                <select class="form-control" name="gid" id="gid">
+                                    <option value="">所有</option>
+                                    {volist name="list" id="val"}
+                                    <option value="<{$val.gid}>"><{$val.gname}></option>
+                                    {/volist}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>推广产品：</label>
+                                <select class="form-control" name="products" id="products">
+                                    <option value="">所有</option>
+                                    {volist name="rester['products']" id="val"}
+                                    <option value="<{$val.products}>"><{$val.products}></option>
+                                    {/volist}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>推广媒体：</label>
+                                <select class="form-control" name="media" id="media">
+                                    <option value="">所有</option>
+                                    {volist name="rester['media']" id="val"}
+                                    <option value="<{$val.media}>"><{$val.media}></option>
+                                    {/volist}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>名：</label>
+                                <select class="form-control" name="username" id="username">
+                                <option value="">所有</option>
+                                    {volist name="rester['username']" id="val"}
+                                    <option value="<{$val.username}>"><{$val.username}></option>
+                                    {/volist}
+                                </select>
+                            </div> 
+                    </form>
+                    <div class="form-group">
+                        <button id="search" type="submit" class="btn btn-info"><strong>搜索</strong></button>
+                        <a href="<{:url('package/add')}>" class="btn btn-primary">新增游戏包</a>
+                        <a href="<{:url('package/index')}>" class="btn btn-success ">刷新</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row" style="width:100%">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <table class="table table-striped table-bordered table-hover " id="editable" width="100%" border="0" cellspacing="0" cellpadding="0" class="main">
+                        <thead>
+                        <tr>
+                            <th>游戏名</th>
+                            <th>包名</th>
+                            <th>包号</th>
+                            <th>页面链接</th>
+                            <th>下载链接</th>
+                            <th>监测链接</th>
+                            <th>下载链接</th>
+                            <th>推广产品</th>
+                            <th>推广媒体</th>
+                            <th>添加人</th>
+                            <th>创建时间</th>
+                            <th>删除</th>
+                            <th>修改</th>
+                        </tr>
+                        {volist name="datas" id="val"}
+                        <tr>
+                            <th><{$val.gid}></th>
+                            <th><{$val.pname}></th>
+                            <th><{$val.pnumber}></th>
+                            <th><a href="<{$val.page_url}>" target="_blank"><{$val.page_url}></th>
+                            <th><{$val.url}></th>
+                            <th><{$val.monitoring_url}></th>
+                            <th><{$val.download_url}></th>
+                            <th><{$val.products}></th>
+                            <th><{$val.media}></th>
+                            <th><{$val.username}></th>
+                            <th><{$val.create_time}></th>
+                            <th><{$val.option}></th>
+                            <th><{$val.update}></th>
+                        </tr>
+                        {/volist}
+                        </thead>
+                    </table>
+
+                </div>
+                 <{$page}>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 全局js -->
+{include file="common/footer" /}
+
+<script src="/static/backend/hplus/js/content.js?v=1.0.0"></script>
+
+
+<!-- Page-Level Scripts -->
+<script>
+
+   
+    function delete_package(pid){
+        $.ajax({
+            type: "POST",
+            url: "<{:url('package/deleted')}>",
+            data: {pid:pid},
+            async: false,
+            error: function (request) {
+                layer.msg('网络错误', {icon: 1});
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    layer.msg(data.msg, {time: 2000, icon: 1});
+                    window.location.replace(data.url);
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            }
+        });
+        return false;
+    }
+</script>
+
+</body>
+
+</html>

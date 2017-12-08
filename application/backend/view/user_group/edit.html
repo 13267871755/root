@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    {include file="common/header" /}
+    <!-- Data Tables -->
+    <link href="/static/backend/hplus/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel-body">
+                <a href="<{:url('user_group/index')}>" class="btn btn-primary ">返回</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form  role="form"  id="gd_form" action="<{:url('user_group/addData')}>" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">名称</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="name" class="form-control" placeholder="名称">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary pull-left m-t-n-xs" type="button" id="gb_button">保存内容</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 全局js -->
+{include file="common/footer" /}
+<script src="/static/backend/hplus/js/plugins/jeditable/jquery.jeditable.js"></script>
+<!-- Data Tables -->
+<script src="/static/backend/hplus/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/static/backend/hplus/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<!-- 自定义js -->
+<script src="/static/backend/hplus/js/content.js?v=1.0.0"></script>
+
+
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function () {
+        $('#gb_button').click(function () {//点击按钮提交
+            $.ajax({
+                type: "POST",
+                url: $('#gd_form').attr("action"),
+                data: {'data': $('#gd_form').serialize()},
+                async: false,
+                error: function (request) {
+                    layer.msg('网络错误', {icon: 1});
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        layer.msg(data.msg, {time: 2000, icon: 1});
+                        window.location.replace(data.url);
+                    } else {
+                        layer.msg(data.msg, {icon: 2});
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
+
+
+
+
+{__NOLAYOUT__}
+<form role="form" id="common-form" method="post" action="<{:url('user_group/addData')}>" onsubmit="return toPost()">
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><{$data.groupid?'编辑用户组':'增加用户组'}></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body-content">
+                        <input type="hidden" name="groupid" value="<{$data.groupid}>">
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input class="form-control" name="name" value="<{$data.name}>" placeholder="名称">
+                        </div>
+                        <div class="form-group">
+                            <label>标识</label>
+                            <input class="form-control" name="mark" value="<{$data.mark}>" placeholder="标识">
+                        </div>
+                        <div class="form-group">
+                            <label>描述</label>
+                            <textarea class="form-control" name="description"><{$data.description}></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

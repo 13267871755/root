@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://ljsg.10001wan.com/h5/lgg_ljsg_2/ -->
+<html id="html"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>swzz</title>
+    <meta name="viewport" content="width=720, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="__STATIC__/census/swzz/swiper-3.4.1.min.css" rel="stylesheet" type="text/css">
+    <link href="__STATIC__/census/swzz/index.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div id="container">
+    <header>
+        <img src="__STATIC__/census/swzz/top_1.gif">
+        <a href="javascript:void(0);" onclick="Download()"  class=" down down1"></a>
+    </header>
+
+    <section class="content ">
+        <div class="position">
+            <img src="__STATIC__/census/swzz/1.jpg">
+            <a href="javascript:void(0);" onclick="Download()" class=" down down2"></a>
+        </div>
+        <div class="lb_list position">
+            <a href="javascript:void(0);" onclick="Download()" class="down down2" style="z-index: 100"></a>
+            <div class="lunbo">
+                <ul id="list">
+                    <li class="item4 scale_4"><img src="__STATIC__/census/swzz/2_1.png"></li>
+                    <li class="item5 scale_5"><img src="__STATIC__/census/swzz/2_2.png"></li>
+                    <li class="item6 scale_6"><img src="__STATIC__/census/swzz/2_3.png"></li>
+                    <li class="item1 scale_1 on"><img src="__STATIC__/census/swzz/2_4.png"></li>
+                    <li class="item2 scale_2"><img src="__STATIC__/census/swzz/2_5.png"></li>
+                    <li class="item3 scale_3"><img src="__STATIC__/census/swzz/2_6.png"></li>
+                </ul>
+                <div id="qq">
+                    <span class=""></span>
+                    <span class=""></span>
+                    <span class=""></span>
+                    <span class="active"></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <div class="bg" style="padding-bottom:30px;">
+            <div class="swiper-container swiper1 swiper-container-horizontal">
+                <div class="swiper-wrapper" style="transform: translate3d(-1124px, 0px, 0px); transition-duration: 0ms;"><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="3" style="width: 562px;"><img src="__STATIC__/census/swzz/3_4.jpg"></div>
+                    <div class="swiper-slide swiper-slide-prev" data-swiper-slide-index="0" style="width: 562px;"><img src="__STATIC__/census/swzz/3_1.jpg"></div>
+                    <div class="swiper-slide swiper-slide-active" data-swiper-slide-index="1" style="width: 562px;"><img src="__STATIC__/census/swzz/3_2.jpg"></div>
+                    <div class="swiper-slide swiper-slide-next" data-swiper-slide-index="2" style="width: 562px;"><img src="__STATIC__/census/swzz/3_3.jpg"></div>
+                    <div class="swiper-slide" data-swiper-slide-index="3" style="width: 562px;"><img src="__STATIC__/census/swzz/3_4.jpg"></div>
+                    <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="0" style="width: 562px;"><img src="__STATIC__/census/swzz/3_1.jpg"></div></div>
+                <!-- 如果需要导航按钮 -->
+                <div class="swiper-button-prev "></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+        <div class="position">
+            <img src="__STATIC__/census/swzz/4.jpg">
+            <a href="javascript:void(0);"  onclick="Download()" class="down down3"></a>
+            <p class="down" id="beian" style="color:#8a8a8a">沪ICP备16004985号-1  上海星玩网络科技有限公司</p>
+        </div>
+    </section>
+
+
+</div>
+
+<script src="__STATIC__/census/swzz/jquery-2.1.4.min.js.下载" type="text/javascript"></script>
+<script src="__STATIC__/census/swzz/swiper-3.4.1.min.js.下载" type="text/javascript"></script>
+<script type="text/javascript" src="__STATIC__/census/swzz/touchSwipe.min.js.下载"></script>
+<script type="text/javascript" src="__STATIC__/census/swzz/main.js"></script>
+<script type="text/javascript">
+    var mySwiper = new Swiper ('.swiper-container', {
+        loop: true,
+        autoplay : 5000,
+
+
+
+        // 如果需要前进后退按钮
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+
+
+    })
+</script>
+
+<script>
+    $(function(){
+        var $container = $('#list');
+        var length = $container.find('li').length;
+        var current=0;
+        $('.lunbo').swipe({
+            swipeLeft:function(){
+                next();
+            },
+            swipeRight:function(){
+                pre();
+            }
+        })
+        function next(){
+            clearInterval(my);
+            if(current<length-1){
+                current++;
+                s_each();
+            }else{
+                current=0;
+                s_each();
+            }
+            my = setInterval(function() { next();}, 2000);
+        }
+
+        function pre(){
+            clearInterval(my);
+            if(current>0){
+                current--;
+                s_each();
+            }else{
+                current=length-1;
+                s_each();
+            }
+            my = setInterval(function() { next();}, 2000);
+        }
+        function  s_each(){
+            $container.find('li').each(function(i){
+                if(current == i){
+                    $(this).attr('class','item'+1+' scale_1').addClass('on');
+                    $('#qq span').eq(i).addClass('active');
+                }else if(current>i){
+                    $(this).attr('class','item'+(i+length+1-current)+' scale_'+(i+length+1-current)).removeClass('on');
+                    $('#qq span').eq(i).removeClass('active');
+                }else{
+                    $(this).attr('class','item'+(i+1-current)+' scale_'+(i+1-current)).removeClass('on');
+                    $('#qq span').eq(i).removeClass('active');
+                }
+            })
+        }
+
+        var my = setInterval(function() { next();}, 2000);
+
+    })
+</script>
+
+<script src="__STATIC__/lib/mobile-detect.min.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var pnumber = "<{$Request.param.pnumber}>"; //包号
+        var system_os = '';  //系统
+        var system_version = '';  //版本
+        var system_type = '';  //机型
+        var view_type = '';  //访问类型
+        var view_venv = '';  //访问环境
+        var user_cookie = '<{$session_id}>';  //cookie
+
+        var device_type = navigator.userAgent;//获取userAgent信息
+        var md = new MobileDetect(device_type);//初始化mobile-detect
+
+        if (md.mobile() == 'iPad') {
+            view_type = 'iPad'; //访问机器
+            system_os = 'IOS'; //系统
+            system_version = 'unknown'; //系统版本
+            system_type = 'unknown'; //系统机型
+
+        } else if (md.os() == "iOS") {
+            view_type = 'iPhone';
+            system_os = md.os();
+            system_version = md.version("iPhone");
+            system_type = "iPhone";//机型
+
+        } else if (md.os() == "AndroidOS") {
+            view_type = 'Android';
+            system_os = md.os();
+            system_version = md.version("Android");
+            var sys_dict = device_type.split(";");
+            system_type = sys_dict[2];//机型
+        } else {
+            view_type = 'PC';
+            system_os = 'PC';
+            system_version = 'unknown';
+            system_type = 'unknown';
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "<{:url('census/add')}>",
+            data: {
+                pnumber: pnumber,
+                system_os: system_os,
+                system_version: system_version,
+                system_type: system_type,
+                view_type: view_type,
+                view_venv: view_venv,
+                user_cookie: user_cookie,
+            },
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                console.log(json)
+            }
+        });
+
+    }
+    $(window).on('beforeunload', function () {
+        var user_cookie = '<{$session_id}>';  //cookie
+        $.ajax({
+
+            type: "POST",
+            url: "<{:url('census/leave')}>",
+            data: {
+                user_cookie: user_cookie,
+            },
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                console.log(json)
+            }
+        });
+    });
+    function Download() {
+
+        var pacakge = "<{$Request.param.pnumber}>";
+        $.ajax({
+            type: "POST",
+            url: "<{:url('download/add')}>",
+            data: {package: pacakge},
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                if (json.status === 'fail') {
+                    alert(json.msg);
+                    return false;
+                } else {
+                    window.location.href = json.url;
+                    return false;
+                }
+
+            }
+        });
+    }
+</script>

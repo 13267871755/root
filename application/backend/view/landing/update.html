@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    {include file="common/header" /}
+    <!-- Data Tables -->
+    <link href="/static/backend/hplus/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                <a href="<{:url('landing/index')}>" class="btn btn-sm btn-primary "><strong>返回</strong></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form role="form" id="gd_form" action="<{:url('landing/update')}>" method="post" class="form-horizontal">
+                        {volist name="datas" id="val"}
+                        <div class="form-group">
+                            <input type="hidden" value="<{$val.id}>" name="id">
+                            <label class="col-sm-4 control-label">游戏名</label>
+                            <div class="col-sm-4">
+                            <input type="text" class="form-control" value="<{$val.game_name}>" name="game_name" placeholder="游戏名">
+                            </div>
+                        </div>
+
+                         <div class="form-group">
+                            <label class="col-sm-4 control-label">落地页链接(初始)</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" value="<{$val.origin_page}>" name="origin_page" placeholder="监测链接">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-sm-4 control-label">显示页面链接(更改后)</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" value="<{$val.new_page}>" name="new_page" placeholder="显示页面链接">
+                            </div>
+                        </div>
+                      
+                        {/volist}
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <input type="submit"  value="保存内容" style="background:#1AB394; color:white; width:90px;height:35px;">
+                                <!-- <button class="btn btn-primary pull-left m-t-n-xs" type="button" id="gb_button">保存内容</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 全局js -->
+{include file="common/footer" /}
+<script src="/static/backend/hplus/js/plugins/jeditable/jquery.jeditable.js"></script>
+<!-- Data Tables -->
+<script src="/static/backend/hplus/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/static/backend/hplus/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<!-- 自定义js -->
+<script src="/static/backend/hplus/js/content.js?v=1.0.0"></script>
+
+<!-- layerDate plugin javascript -->
+<script src="/static/backend/hplus/js/plugins/layer/laydate/laydate.js"></script>
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function () {
+        $('#gb_button').click(function () {//点击按钮提交
+            $.ajax({
+                type: "POST",
+                url: $('#gd_form').attr("action"),
+                data: {'data': $('#gd_form').serialize()},
+                async: false,
+                error: function (request) {
+                    layer.msg('网络错误', {icon: 1});
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        layer.msg(data.msg, {time: 2000, icon: 1});
+                        window.location.replace(data.url);
+                    } else {
+                        layer.msg(data.msg, {icon: 2});
+                    }
+                }
+            });
+            return false;
+        });
+        laydate({elem: '#expiration', event: 'focus'});
+    });
+</script>
+</body>
+</html>

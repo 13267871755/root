@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery图片自动轮播切换展示特效 - 站长素材</title>
+<link rel="stylesheet" href="/static/census/yh/css/index.css"/>
+
+
+<style> 
+body div{ text-align:center} 
+/* css注释：为了观察效果设置宽度 边框 高度等样式 */ 
+
+#down2 a{ 
+    display:block;
+    width:230px;
+    height:30px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid #000;
+    background: red;
+    /*margin-top: -200px;*/
+    margin-left:700px;
+} 
+</style> 
+</head>
+<body>
+    <div id="container">
+        <section class="content ">
+            <div class="position2">
+                <img src="/static/census/yh/1_01.jpg">
+            </div>
+            <div class="position2">
+                <img src="/static/census/yh/1_02.jpg">
+            </div>
+            <div class="position">
+                <img src="/static/census/yh/1_03.jpg">
+            </div>
+            <div class="position">
+                <img src="/static/census/yh/1_04.jpg">
+            </div>
+            <div class="position">
+                <img src="/static/census/yh/1_05.jpg">
+            </div>
+            <div class="position">
+                <img src="/static/census/yh/1_06.jpg">
+            </div>
+            <div class="position" id="down2">
+                <img src="/static/census/yh/1_07.jpg">
+                <a href=""></a>
+            </div>
+        </section>
+    </div>
+   <div id="wrap">
+        <div id="pic">
+            <ul >
+                <li><img src="/static/census/yh/1_03-4.jpg" alt="" /></li>
+                <li><img src="/static/census/yh/1_03-1.jpg" alt="" /></li>
+                <li><img src="/static/census/yh/1_03-2.jpg" alt="" /></li>
+                <li><img src="/static/census/yh/1_03-3.jpg" alt="" /></li>
+                <li><img src="/static/census/yh/1_03-4.jpg" alt="" /></li>
+                <li><img src="/static/census/yh/1_03-1.jpg" alt="" /></li>
+            </ul>
+        </div>
+        <div id="btn">
+            <div id="left"></div>
+            <div id="right"></div>
+        </div>
+    </div> 
+</body>
+<script type="text/javascript" src='/static/census/yh/js/jquery-1.12.1.min.js'></script>
+<script type="text/javascript" src="/static/census/yh/js/index.js"></script>
+</html>

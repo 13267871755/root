@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0039)http://ljsg.10001wan.com/h5/lgg_ljsg_2/ -->
+<html id="html"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>忍者大作战</title>
+    <meta name="viewport" content="width=720, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="__STATIC__/census/yzh/swiper-3.4.1.min.css" rel="stylesheet" type="text/css">
+    <link href="__STATIC__/census/yzh/index.css" rel="stylesheet" type="text/css">
+    <style>
+    .down1 {width: 260px;height: 90px;right: 20px;top: 22px;}
+    </style>
+</head>
+
+<body>
+<div id="container">
+    <header>
+        <img src="__STATIC__/census/yzh/icon/rzdzz/logo.jpg" style="width: 720px;">
+        <a href="javascript:void(0);" onclick="Download()"  class=" down down1"></a>
+    </header>
+    <section class="content " style="padding-top:0 40px">
+        <div class="position2">
+            <img src="__STATIC__/census/yzh/z.jpg">
+        </div>
+        <div class="position">
+            <a href="javascript:void(0);" onclick="Download()" class=" down down2"></a>
+        </div>
+        <div class="position2">
+            <img src="__STATIC__/census/yzh/3_2.jpg">
+        </div>
+        <div class="position">
+            <a href="javascript:void(0);" onclick="Download()" class=" down down3"></a>
+        </div>
+        <div class="bg2">
+            <div class="swiper-container swiper1 swiper-container-horizontal">
+                <div class="swiper-wrapper" style="transform: translate3d(-1124px, 0px, 0px); transition-duration: 0ms;">
+                    <div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="3"><img src="__STATIC__/census/yzh/4-1.jpg"></div>
+                    <div class="swiper-slide swiper-slide-prev" data-swiper-slide-index="0"><img src="__STATIC__/census/yzh/4-2.jpg"></div>
+                    <div class="swiper-slide swiper-slide-active" data-swiper-slide-index="1"><img src="__STATIC__/census/yzh/4-3.jpg"></div>
+                    <div class="swiper-slide swiper-slide-next" data-swiper-slide-index="2"><img src="__STATIC__/census/yzh/4-4.jpg"></div>
+                <!-- 如果需要导航按钮 -->
+                <div class="swiper-button-prev "></div>
+                <div class="swiper-button-next"></div>
+            </div>
+            </div>
+        </div>
+        <div class="position2">
+            <img src="__STATIC__/census/yzh/5.jpg">
+            <img src="__STATIC__/census/yzh/6.jpg">
+        </div>
+        <div class="position">
+            <a href="javascript:void(0);" onclick="Download()" class=" down down4"></a>
+        </div>
+    </section>
+</div>
+<div>
+    <input type="hidden" value="<{$data.monitoring_url}>" id="monitoring_url">
+    <input type="hidden" value="<{$data.download_url}>" id="download_url">
+</div>
+<script src="__STATIC__/census/yzh/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script src="__STATIC__/census/yzh/swiper-3.4.1.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="__STATIC__/census/yzh/touchSwipe.min.js"></script>
+
+<script type="text/javascript">
+    var mySwiper = new Swiper ('.swiper-container', {
+        loop: true,
+        autoplay : 5000,
+        // 如果需要前进后退按钮
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+
+
+    })
+
+    $(document).ready(function(){
+    var url = $('#monitoring_url').val();
+        if(url != ''){
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: '',
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        }
+        
+        
+    }); 
+</script>
+
+<script src="__STATIC__/lib/mobile-detect.min.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var pnumber = "<{$Request.param.pnumber}>"; //包号
+        var system_os = '';  //系统
+        var system_version = '';  //版本
+        var system_type = '';  //机型
+        var view_type = '';  //访问类型
+        var view_venv = '';  //访问环境
+        var user_cookie = '<{$session_id}>';  //cookie
+
+        var device_type = navigator.userAgent;//获取userAgent信息
+        var md = new MobileDetect(device_type);//初始化mobile-detect
+
+        if (md.mobile() == 'iPad') {
+            view_type = 'iPad'; //访问机器
+            system_os = 'IOS'; //系统
+            system_version = 'unknown'; //系统版本
+            system_type = 'unknown'; //系统机型
+
+        } else if (md.os() == "iOS") {
+            view_type = 'iPhone';
+            system_os = md.os();
+            system_version = md.version("iPhone");
+            system_type = "iPhone";//机型
+
+        } else if (md.os() == "AndroidOS") {
+            view_type = 'Android';
+            system_os = md.os();
+            system_version = md.version("Android");
+            var sys_dict = device_type.split(";");
+            system_type = sys_dict[2];//机型
+        } else {
+            view_type = 'PC';
+            system_os = 'PC';
+            system_version = 'unknown';
+            system_type = 'unknown';
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "<{:url('census/add')}>",
+            data: {
+                pnumber: pnumber,
+                system_os: system_os,
+                system_version: system_version,
+                system_type: system_type,
+                view_type: view_type,
+                view_venv: view_venv,
+                user_cookie: user_cookie,
+            },
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                console.log(json)
+            }
+        });
+
+    }
+    $(window).on('beforeunload', function () {
+        var user_cookie = '<{$session_id}>';  //cookie
+        $.ajax({
+
+            type: "POST",
+            url: "<{:url('census/leave')}>",
+            data: {
+                user_cookie: user_cookie,
+            },
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                console.log(json)
+            }
+        });
+    });
+    function Download() {
+
+        var pacakge = "<{$Request.param.pnumber}>";
+        $.ajax({
+            type: "POST",
+            url: "<{:url('download/add')}>",
+            data: {package: pacakge},
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                if (json.status === 'fail') {
+                    alert(json.msg);
+                    return false;
+                } else {
+                    window.location.href = json.url;
+                    return false;
+                }
+
+            }
+        });
+
+    var url = $('#download_url').val();
+       if(url != ''){
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: '',
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        }
+    }
+</script>

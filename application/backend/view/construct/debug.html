@@ -1,0 +1,134 @@
+<?php echo $res; ?>
+<style>
+    .down1{width: 300px;height: 150px;margin-top: 500px;margin-left: 250px;background-color:rgba(255,0,0,0.5);z-index: 7;}
+    .down2{width: 300px;height: 150px;margin-top: 500px;margin-left: 250px;background-color:rgba(255,0,0,0.5);z-index: 7;}
+    .down3{width: 300px;height: 150px;margin-top: 500px;margin-left: 250px;background-color:rgba(255,0,0,0.5);z-index: 7;}
+    .down4{width: 300px;height: 150px;margin-top: 500px;margin-left: 250px;background-color:rgba(255,0,0,0.5);z-index: 7;}
+    .down5{width: 300px;height: 150px;margin-top: 500px;margin-left: 250px;background-color:rgba(255,0,0,0.5);z-index: 7;}
+    .down6{width: 300px;height: 150px;margin-top: 500px;margin-left: 250px;background-color:rgba(255,0,0,0.5);z-index: 7;}
+    .down7{width: 300px;height: 150px;margin-top: 500px;margin-left: 250px;background-color:rgba(255,0,0,0.5);z-index: 7;}
+    .down8{width: 300px;height: 150px;margin-top: 500px;margin-left: 250px;background-color:rgba(255,0,0,0.5);z-index: 7;}
+    .down9{width: 300px;height: 150px;margin-top: 500px;margin-left: 250px;background-color:rgba(255,0,0,0.5);z-index: 7;}
+
+</style>
+<div style="position:fixed; left:10px; top:50px; z-index:999;">
+    <div>
+        <a href="<{:url('construct/index')}>" style="background-color: #1ab394;border-color: #1ab394;color: #FFFFFF;border-radius: 3px;padding: 5px 10px;font-size: 12px; line-height: 1.5;font-weight: 400;text-align: center;cursor: pointer;margin-left: 20px;">返回</a>
+    </div>
+    <div style="margin-top:30px; text-align:right;">
+        <p style="line-height:25px;">
+            <span>宽度：</span>
+            <input id="k" type="text" size="5">
+        </p>
+        <p style="line-height:25px;">
+            <span>高度：</span>
+            <input id="g" type="text" size="5">
+        </p>
+        <p style="line-height:25px;">
+            <span>距离顶部：</span>
+            <input id="t" type="text" size="5">
+        </p>
+        <p style="line-height:25px;">
+            <span>距离左侧：</span>
+            <input id="l" type="text" size="5">
+        </p>
+        <button onclick="t()"  style="background-color: #1ab394;border-color: #1ab394;color: #FFFFFF;border-radius: 3px;padding: 5px 10px;font-size: 12px; line-height: 1.5;font-weight: 400;text-align: center;cursor: pointer;margin-left: 20px;">添加</button>
+        <button onclick="b()"  style="background-color:#1c84c6;border-color: #1c84c6;color: #FFFFFF;border-radius: 3px;padding: 5px 10px;font-size: 12px; line-height: 1.5;font-weight: 400;text-align: center;cursor: pointer;margin-left: 20px;margin-top: 20px;">保存</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    i = 0;
+    function t(){
+        i = i*1 + 1;
+        $("#a").append('<a href="javascript:void(0);" onclick="Download()"  class=" down down'+i+'"></a>'); 
+        var t =  parseInt( $('.down'+i).css('marginTop'));
+        var l = parseInt( $('.down'+i).css('marginLeft'));
+        var g = $('.down'+i).height();
+        var k = $('.down'+i).width();
+        $('#t').val(t);
+        $('#l').val(l);
+        $('#g').val(g);
+        $('#k').val(k);    
+    }
+ 
+    function b(){
+        //获取down的style值
+        //定义以及初始化
+        var d = $('.down').length;
+        var treeCol=new Array();
+        for(var i=1;i < d;i++){
+            treeCol[i]=new Array(); 
+            for(var j=0;j< 4;j++){
+                treeCol[i]['height']= $(".down"+i).height();
+                treeCol[i]['width']= $(".down"+i).width();
+                treeCol[i]['marginTop']= parseInt( $('.down'+i).css('marginTop'));
+                treeCol[i]['marginLeft']= parseInt( $('.down'+i).css('marginLeft'));
+            }
+        }
+        var res = '';
+        for(var i = 1; i < treeCol.length; i++ ){
+            res += ',{'
+             res += 'height'+':'+treeCol[i]['height']+"px"+";";
+             res += 'width'+':'+treeCol[i]['width']+"px"+";";
+             res += 'margin-top'+':'+treeCol[i]['marginTop']+"px"+";";
+             res += 'margin-left'+':'+treeCol[i]['marginLeft']+"px"+";";
+             res += 'z-index: 999;}';
+        }
+        $.post("<{:url('construct/save')}>",{treeCol:res,path:"<{$path}>"},function(data){
+            console.log(data);
+            
+            alert('保存成功，请前往检查页面样式！'+"http://landing.shxingwan.com/census/<{$link}>");
+        });
+    }
+    //判断当event.keyCode 为40时（即下方面键），执行函数to_left();
+    //判断当event.keyCode 为38时（即上方面键），执行函数to_right();
+    $('#k').keydown(function(event){
+        　　　　
+        if(event.keyCode == 40){
+    　　　　$('#k').val($('#k').val()-1);
+            var k = $('#k').val();
+            $('.down'+i).width(k);
+    　　}else if (event.keyCode == 38){
+    　　　　$('#k').val($('#k').val() * 1+1);
+            var k = $('#k').val();
+            $('.down'+i).width(k);
+    　　}
+    });
+
+    $('#t').keydown(function(event){
+    　　if(event.keyCode == 40){
+    　　　　$('#t').val($('#t').val()-5);
+            var t = $('#t').val()+'px';
+            $('.down'+i).css('margin-top',t);
+    　　}else if (event.keyCode == 38){
+    　　　　$('#t').val($('#t').val() * 1+5);
+            var t = $('#t').val()+'px';
+            $('.down'+i).css('margin-top',t);
+    　　}
+    });
+    $('#g').keydown(function(event){　　　　
+     　 if(event.keyCode == 40){
+    　　　　$('#g').val($('#g').val()-1);
+            var k = $('#g').val();
+            $('.down'+i).height(k);
+        }else if (event.keyCode == 38){
+        　　$('#g').val($('#g').val() * 1+1);
+            var k = $('#g').val();
+            $('.down'+i).height(k);
+    　　}
+    });
+    $('#l').keydown(function(event){  　　　　
+    　　if(event.keyCode == 40){
+    　　　　$('#l').val($('#l').val()-1);
+            var t = $('#l').val()+'px';
+            $('.down'+i).css('margin-left',t);
+    　　}else if (event.keyCode == 38){
+    　　　　$('#l').val($('#l').val() * 1+1);
+            var t = $('#l').val()+'px';
+            $('.down'+i).css('margin-left',t);
+    　　}
+    });
+</script>
+</body>
+</html>

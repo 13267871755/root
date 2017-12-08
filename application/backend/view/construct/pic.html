@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>侍影契约</title>
+    <meta name="viewport" content="width=720, user-scalable=no">
+
+
+    <link href="__STATIC__/census/yzh/yzh8/index.css" rel="stylesheet" type="text/css">
+    <link href="__STATIC__/backend/css/pic.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<footer class="left">
+<div class="top">
+        <a href="<{:url('construct/index')}>" class="back"><strong>返回</strong></a>
+        <a href="<{:url('construct/pic')}>" class="refresh">刷新</a><br>  
+    </div>
+<div class="biao">
+ <p><span>宽：</span><input id="k" type="text" ></p> 
+<p><span>高：</span><input id="g" type="text" ></p>   
+ <p><span>top：</span><input id="t" type="text" ></p>  
+ <p><span>left：</span><input id="l" type="text" ></p> 
+      <button style="margin-top: 20px" class="add" onclick="t()">添加</button>
+      <button class="bao" onclick="b()">保存</button>
+</div>
+</footer>
+<?php echo $res; ?>
+<script src="__STATIC__/census/lmsy/jquery-2.txt" type="text/javascript"></script>
+<script src="__STATIC__/census/lmsy/swiper-3.txt" type="text/javascript"></script>
+<script type="text/javascript">
+   i = 0;
+function t(){
+    
+    i = i*1 + 1;
+    if(i == 1){
+        if($("header").length > 0){
+            
+            $("header").append('<a href="javascript:void(0);" onclick="Download()"  class=" down down'+i+'"></a>');
+        }else{
+           $("#x").append('<a href="javascript:void(0);" onclick="Download()"  class=" down down'+i+'"></a>'); 
+        }
+        
+    }else{
+        $("#x").append('<a href="javascript:void(0);" onclick="Download()"  class=" down down'+i+'"></a>'); 
+    }
+    var t =  parseInt( $('.down'+i).css('marginTop'));
+    var l = parseInt( $('.down'+i).css('marginLeft'));
+     var g = $('.down'+i).height();
+     var k = $('.down'+i).width();
+     $('#t').val(t);
+     $('#l').val(l);
+     $('#g').val(g);
+     $('#k').val(k);
+    
+}
+ 
+function b(){
+
+//获取down的style值
+    //定义以及初始化
+    var d = $('.down').length;
+    var treeCol=new Array();
+    for(var i=1;i <= d;i++){
+        treeCol[i]=new Array(); 
+        for(var j=0;j< 4;j++){
+            treeCol[i]['height']= $(".down"+i).height();
+            treeCol[i]['width']= $(".down"+i).width();
+            treeCol[i]['marginTop']= parseInt( $('.down'+i).css('marginTop'));
+            treeCol[i]['marginLeft']= parseInt( $('.down'+i).css('marginLeft'));
+        }
+    }
+    var res = '';
+    for(var i = 1; i < treeCol.length; i++ ){
+        res += '{'
+         res += 'height'+':'+treeCol[i]['height']+"px"+";";
+         res += 'width'+':'+treeCol[i]['width']+"px"+";";
+         res += 'margin-top'+':'+treeCol[i]['marginTop']+"px"+";";
+         res += 'margin-left'+':'+treeCol[i]['marginLeft']+"px"+";";
+         res += '}';
+         res += ',';
+    }
+  
+    $.post("<{:url('construct/down')}>",{treeCol:res},function(data){
+        console.log(data);
+    });
+
+}
+//判断当event.keyCode 为40时（即下方面键），执行函数to_left();
+
+//判断当event.keyCode 为38时（即上方面键），执行函数to_right();
+ $('#k').keydown(function(event){
+    　　　　
+    　　　　if(event.keyCode == 40){
+    　　　　　　$('#k').val($('#k').val()-1);
+                var k = $('#k').val();
+                $('.down'+i).width(k);
+    　　　　}else if (event.keyCode == 38){
+    　　　　　　$('#k').val($('#k').val() * 1+1);
+                var k = $('#k').val();
+                $('.down'+i).width(k);
+
+    　　　　}
+
+    });
+
+ $('#t').keydown(function(event){
+
+    　　　　if(event.keyCode == 40){
+           
+
+    　　　　　　$('#t').val($('#t').val()-1);
+                var t = $('#t').val()+'px';
+                $('.down'+i).css('margin-top',t);
+    　　　　}else if (event.keyCode == 38){
+    　　　　　　$('#t').val($('#t').val() * 1+1);
+                var t = $('#t').val()+'px';
+                $('.down'+i).css('margin-top',t);
+
+    　　　　}
+
+    });
+ $('#g').keydown(function(event){
+    　　　　
+    　　　　if(event.keyCode == 40){
+    　　　　　　$('#g').val($('#g').val()-1);
+                var k = $('#g').val();
+                $('.down'+i).height(k);
+    　　　　}else if (event.keyCode == 38){
+    　　　　　　$('#g').val($('#g').val() * 1+1);
+                var k = $('#g').val();
+                $('.down'+i).height(k);
+
+    　　　　}
+
+    });
+
+$('#l').keydown(function(event){
+    　　　　
+    　　　if(event.keyCode == 40){
+    　　　　　　$('#l').val($('#l').val()-1);
+                var t = $('#l').val()+'px';
+                $('.down'+i).css('margin-left',t);
+    　　　　}else if (event.keyCode == 38){
+    　　　　　　$('#l').val($('#l').val() * 1+1);
+                var t = $('#l').val()+'px';
+                $('.down'+i).css('margin-left',t);
+
+    　　　　}
+
+
+    });
+
+
+
+
+
+</script>
+</body>
+</html>

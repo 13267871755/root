@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://tg.ijunhai.com/game4/11650.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>仙坠凡尘</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="http://tg.ijunhai.com/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="__STATIC__/census/xzfc/01/Reset.css">
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        overflow: scroll;
+    }
+    
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+    
+    li {
+        list-style: none
+    }
+    
+    div {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .down{
+    position: absolute;
+    }
+    .down2{width:200px;height:100px;top:10px;left:429px;}
+    .down3{width: 241px;height: 100px;top: 721px;left: 200px; }
+    .down4{width: 307px;height: 100px;top: 94.7%;left: 166px;}
+    .down5{width: 303px;height: 100px;top: 66%;left: 168px; }
+
+    .container {
+        min-width: 320px;
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 0;
+        height: auto;
+    }
+    
+    .container img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+    
+    .part-1,
+    .part-2,
+    .part-3,
+    .part-4 {
+        position: relative;
+        margin-top: 126px;
+    }
+    
+
+   
+    .part-top{
+        position: fixed;
+        min-width: 320px;
+        max-width: 640px;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+    }
+    .part-top img{
+        width: 100%;
+        height: auto;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="downJump">
+     
+        <div class="part-1">
+                <img src="__STATIC__/census/xzfc/02/1.jpg">
+                <img src="__STATIC__/census/xzfc/02/2.jpg">
+                <img src="__STATIC__/census/xzfc/02/3.jpg">
+                <img src="__STATIC__/census/xzfc/02/4.jpg">
+               
+                <a href="javascript:void(0);" onclick="Download()" class="down down3"></a>
+                <a href="javascript:void(0);" onclick="Download()" class="down down4"></a>
+                <a href="javascript:void(0);" onclick="Download()" class="down down5"></a>
+        </div>
+        <div class="part-top">
+        <img src="__STATIC__/census/xzfc/02/5.jpg" >
+         <a href="javascript:void(0);" onclick="Download()" class="down down2"></a>
+    </div>
+    </div>
+    
+<script src="__STATIC__/census/jxwq/jxwq3/index.js.下载"></script>
+<script src="__STATIC__/census/jxwq/jxwq3/jquery-1.9.1.min.js.下载"></script>
+<script type="text/javascript" src="__STATIC__/census/jxwq/jxwq3/main.js.下载"></script>
+<script src="__STATIC__/lib/mobile-detect.min.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var pnumber = "<{$Request.param.pnumber}>"; //包号
+        var system_os = '';  //系统
+        var system_version = '';  //版本
+        var system_type = '';  //机型
+        var view_type = '';  //访问类型
+        var view_venv = '';  //访问环境
+        var user_cookie = '<{$session_id}>';  //cookie
+
+        var device_type = navigator.userAgent;//获取userAgent信息
+        var md = new MobileDetect(device_type);//初始化mobile-detect
+
+        if (md.mobile() == 'iPad') {
+            view_type = 'iPad'; //访问机器
+            system_os = 'IOS'; //系统
+            system_version = 'unknown'; //系统版本
+            system_type = 'unknown'; //系统机型
+
+        } else if (md.os() == "iOS") {
+            view_type = 'iPhone';
+            system_os = md.os();
+            system_version = md.version("iPhone");
+            system_type = "iPhone";//机型
+
+        } else if (md.os() == "AndroidOS") {
+            view_type = 'Android';
+            system_os = md.os();
+            system_version = md.version("Android");
+            var sys_dict = device_type.split(";");
+            system_type = sys_dict[2];//机型
+        } else {
+            view_type = 'PC';
+            system_os = 'PC';
+            system_version = 'unknown';
+            system_type = 'unknown';
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "<{:url('census/add')}>",
+            data: {
+                pnumber: pnumber,
+                system_os: system_os,
+                system_version: system_version,
+                system_type: system_type,
+                view_type: view_type,
+                view_venv: view_venv,
+                user_cookie: user_cookie,
+            },
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                console.log(json)
+            }
+        });
+
+    }
+    $(window).on('beforeunload', function () {
+        var user_cookie = '<{$session_id}>';  //cookie
+        $.ajax({
+
+            type: "POST",
+            url: "<{:url('census/leave')}>",
+            data: {
+                user_cookie: user_cookie,
+            },
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                console.log(json)
+            }
+        });
+    });
+    function Download() {
+
+        var pacakge = "<{$Request.param.pnumber}>";
+        $.ajax({
+            type: "POST",
+            url: "<{:url('download/add')}>",
+            data: {package: pacakge},
+            success: function (response) {
+                var json = jQuery.parseJSON(response)
+                if (json.status === 'fail') {
+                    alert(json.msg);
+                    return false;
+                } else {
+                    window.location.href = json.url;
+                    return false;
+                }
+
+            }
+        });
+    }
+</script>
+</body>
+</html>

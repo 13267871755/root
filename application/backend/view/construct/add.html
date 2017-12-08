@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    {include file="common/header" /}
+    <!-- Data Tables -->
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+  
+                <a href="<{:url('construct/index')}>" class="btn btn-success ">刷新</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form role="form" id="gd_form" action="<{:url('construct/index')}>" method="post" class="form-horizontal" enctype="multipart/form-data">
+
+                     <div class="form-group">
+                            <label class="col-sm-2 control-label">游戏</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" name="gid" id="game">
+                                    {volist name="games" id="game"}
+                                    <option value="<{$game.gid}>"><{$game.gname}></option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">游戏页面链接(初始)</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" name="url_s" id="status">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否固定icon</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" name="fixed">
+                                    <option value="0">否</option>
+                                    <option value="1">顶部固定</option>
+                                    <option value="2">底部固定</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">超链接个数</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="link"   >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">picture</label>
+                            <div class="col-sm-4">
+                                <input type="file" class="form-control" name="pic[]"  id="pic" multiple >
+                            </div>
+                        </div>
+                   
+                       
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                            <input type="submit"  id="input" value="保存内容" class="btn btn-primary pull-left m-t-n-xs">
+                            <!-- <button class="btn btn-primary pull-left m-t-n-xs" type="button" id="gb_button">保存内容</button> -->
+                            </div>
+                        </div>
+                        
+                    </form>
+                    <div class="ibox-content" style="">
+                            <span style="line-height:25px; font-size:14px;">
+                                Tips:<br/>
+                                超链接个数不包括ICON的<br/>
+                                固定ICON :icon.jpg/icon.png/icon.gif<br/>
+                                普通/底图:1.jpg/2.gif/3.png/4.jpg...<br/>
+                                轮播图片 :3-1.jpg,3-2.jpg,3-3.jpg/4-1.jpg,4-2.jpg,4-3.jpg<br/>
+                                例如: icon.jpg,1.jpg,2.gif,3.jpg,3-1.jpg,3-2.jpg,3-3.jpg,4.jpg,5.jpg...
+                            </span>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 全局js -->
+{include file="common/footer" /}
+<script src="/static/backend/hplus/js/plugins/jeditable/jquery.jeditable.js"></script>
+<!-- Data Tables -->
+<script src="/static/backend/hplus/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/static/backend/hplus/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<!-- 自定义js -->
+<script src="/static/backend/hplus/js/content.js?v=1.0.0"></script>
+
+<!-- layerDate plugin javascript -->
+<script src="/static/backend/hplus/js/plugins/layer/laydate/laydate.js"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+
+$("select#game").change(function(){
+    var gid = $(this).val();
+    $("#status").empty();
+    $.ajax({
+        type: "GET",
+        url: "<{:url('package/addget')}>",
+        data: {'gid': gid},
+        async: false,
+        error: function (request) {
+            layer.msg('网络错误', {icon: 1});
+        },
+        success: function (data) {
+            if(data['url'].search(",") != -1){
+                var res = data['url'].split(",");
+                for(j = 0,len=res.length; j < len; j++) {
+                    var html = "<option  value='"+res[j]+"'>"+res[j]+"</option>";
+                    $("#status").prepend(html);
+                }
+            }else{
+                var html = "<option  value='"+data['url']+"'>"+data['url']+"</option>";
+                $("#status").prepend(html);
+            }
+            
+        }
+    });
+});
+</script>
+</body>
+</html>

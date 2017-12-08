@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    {include file="common/header" /}
+    <!-- Data Tables -->
+    <link href="/static/backend/hplus/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body">
+                <a href="<{:url('package/index')}>" class="btn btn-sm btn-primary "><strong>返回</strong></a>
+            </div>
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form role="form" id="gd_form" action="<{:url('package/update')}>" class="form-horizontal">
+                    <div class="form-group">
+                            <label class="col-sm-4 control-label">游戏(该包所在的游戏)</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" name="gid" id="game">
+                                <option value="<{$res.gid}>"><{$res.gname}></option>
+                                    {volist name="games" id="val"}
+                                    <option value="<{$val.gid}>"><{$val.gname}></option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        <input type="hidden" value="<{$datas.pid}>" name="pid">
+                            <label class="col-sm-4 control-label">包名(如：泽天神纪1号包)</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" value="<{$datas.pname}>" name="pname" placeholder="包名">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">包号(如：ztsj1)</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" value="<{$datas.pnumber}>" name="pnumber" placeholder="包号">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">ID(如：3A7ji2)</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" value="<{$datas.mark}>" name="mark" placeholder="ID">
+                            </div>
+                        </div>
+
+                         <div class="form-group">
+                            <label class="col-sm-4 control-label">游戏页面链接(该包所在的游戏链接)</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" name="url_s" id="status">
+                                <option value="<{$datas.page_url}>"><{$datas.page_url}></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">下载链接(包的下载链接)</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control"  value="<{$datas.url}>" name="url" placeholder="下载链接">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">监测到达(页面的监测链接)</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="monitoring_url"  value="<{$datas.monitoring_url}>" placeholder="监测链接">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-sm-4 control-label">监测下载(页面的下载链接)</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="download_url" value="<{$datas.download_url}>" placeholder="下载链接">
+                            </div>
+                        </div>
+                         
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">推广媒体</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" name="media">
+                                    <option value="<{$datas.media}>"><{$datas.media}></option>
+                                    {volist name="data" id="val"}
+                                    <option value="<{$val}>"><{$val}></option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary pull-left m-t-n-xs" type="button" id="gb_button">保存内容
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 全局js -->
+{include file="common/footer" /}
+<script src="/static/backend/hplus/js/plugins/jeditable/jquery.jeditable.js"></script>
+<!-- Data Tables -->
+<script src="/static/backend/hplus/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/static/backend/hplus/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<!-- 自定义js -->
+<script src="/static/backend/hplus/js/content.js?v=1.0.0"></script>
+
+<!-- layerDate plugin javascript -->
+<script src="/static/backend/hplus/js/plugins/layer/laydate/laydate.js"></script>
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function () {
+        $('#gb_button').click(function () {//点击按钮提交
+            $.ajax({
+                type: "POST",
+                url: $('#gd_form').attr("action"),
+                data: {'data': $('#gd_form').serialize()},
+                async: false,
+                error: function (request) {
+                    layer.msg('网络错误', {icon: 1});
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        layer.msg(data.msg, {time: 2000, icon: 1});
+                        window.location.replace(data.url);
+                    } else {
+                        layer.msg(data.msg, {icon: 2});
+                    }
+                }
+            });
+            return false;
+        });
+        laydate({elem: '#expiration', event: 'focus'});
+    });
+
+    $("select#game").change(function(){
+        var gid = $(this).val();
+        $("#status").empty();
+       $.ajax({
+                type: "GET",
+                url: "<{:url('package/addget')}>",
+                data: {'gid': gid},
+                async: false,
+                error: function (request) {
+                    layer.msg('网络错误', {icon: 1});
+                },
+                success: function (data) {
+                    if(data['url'].search(",") != -1){
+                        var res = data['url'].split(",");
+                        for(j = 0,len=res.length; j < len; j++) {
+                            var html = "<option  value='"+res[j]+"'>"+res[j]+"</option>";
+                            $("#status").prepend(html);
+                        }
+                    }else{
+                        var html = "<option  value='"+data['url']+"'>"+data['url']+"</option>";
+                        $("#status").prepend(html);
+                    }
+                    
+                }
+            });
+    });
+    $('input[name="mark"]').keyup(function(){
+        var cid = $(this).val();
+        var monitoring_url='http://a.de0.cc/'+cid+'?event=arrival';
+        var download_url='http://a.de0.cc/'+cid+'?event=download';
+        $('input[name="monitoring_url"]').val(monitoring_url);
+        $('input[name="download_url"]').val(download_url);
+        
+    });
+</script>
+</body>
+</html>
